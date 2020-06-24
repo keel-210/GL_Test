@@ -1,0 +1,52 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "g++.exe build active file",
+            "command": "C:\\mingw-w64\\mingw32\\bin\\g++.exe",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${workspaceFolder}\\main.exe",
+                "-I",
+                "${workspaceFolder}\\include",
+                "${workspaceFolder}\\lib\\libglfw3dll.a",
+                "-lopengl32"
+            ],
+            "options": {
+                "cwd": "C:\\mingw-w64\\mingw32\\bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "C/C++: g++.exe build active file",
+            "command": "C:\\mingw-w64\\mingw32\\bin\\g++.exe",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "C:\\mingw-w64\\mingw32\\include"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
