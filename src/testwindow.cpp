@@ -1,4 +1,5 @@
 #include <GLFW/glfw3.h>
+#include <stdio.h>
 
 int main(void)
 {
@@ -7,6 +8,8 @@ int main(void)
 	/* Initialize the library */
 	if (!glfwInit())
 		return -1;
+
+	glfwSetErrorCallback(error_callback);
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
@@ -27,6 +30,7 @@ int main(void)
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
+		glfwSwapInterval(1);
 
 		/* Poll for and process events */
 		glfwPollEvents();
@@ -34,4 +38,9 @@ int main(void)
 
 	glfwTerminate();
 	return 0;
+}
+
+void error_callback(int error, const char *description)
+{
+	fprintf(stderr, "Error: %s\n", description);
 }

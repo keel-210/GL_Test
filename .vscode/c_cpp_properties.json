@@ -6,6 +6,7 @@
             "includePath": [
                 "${workspaceFolder}",
                 "C:\\mingw-w64\\mingw32\\include",
+                "${workspaceFolder}/include",
                 "${workspaceFolder}/code/.."
             ],
             "defines": [

@@ -10,10 +10,12 @@
                 "${file}",
                 "-o",
                 "${workspaceFolder}\\main.exe",
+                "${workspaceFolder}\\glad.c",
                 "-I",
                 "${workspaceFolder}\\include",
-                "${workspaceFolder}\\lib\\libglfw3dll.a",
-                "-lopengl32"
+                "-lglfw3dll",
+                "-lopengl32",
+                // "-ldl",
             ],
             "options": {
                 "cwd": "C:\\mingw-w64\\mingw32\\bin"
