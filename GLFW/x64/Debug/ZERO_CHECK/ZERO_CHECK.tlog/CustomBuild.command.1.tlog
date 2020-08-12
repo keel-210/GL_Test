@@ -1,0 +1,10 @@
+^C:\USERS\KEEL\DOCUMENTS\GITHUB\GL_TEST\GLFW\CMAKEFILES\D86BAC8DCD3B1069B6F5C71CA6F4A700\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/KEEL/Documents/GitHub/GL_Test/GLFW -BC:/Users/KEEL/Documents/GitHub/GL_Test/GLFW --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/KEEL/Documents/GitHub/GL_Test/GLFW/GLFW.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

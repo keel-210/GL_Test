@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\KEEL\Documents\GitHub\GL_Test\build\CMakeFiles\d05759a2cda24a960ab0871f2dd21d36\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{B7FF5D63-31C8-3271-A876-4789617042EF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
