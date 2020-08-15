@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.18)
-link_directories(${PROJECT_SOURCE_DIR}/lib/)
 
 add_library(src STATIC
 glad.c

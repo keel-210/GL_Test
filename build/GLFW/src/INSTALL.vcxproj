@@ -219,7 +219,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="C:\Users\KEEL\Documents\GitHub\GL_Test\build\ALL_BUILD.vcxproj">
+    <ProjectReference Include="C:\Users\KEEL\Documents\GitHub\GL_Test\build\glew\build\cmake\ALL_BUILD.vcxproj">
       <Project>{96FAF4A6-0214-3446-B3E1-D4A385ACC459}</Project>
       <Name>ALL_BUILD</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

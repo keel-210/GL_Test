@@ -1,0 +1,10 @@
+^C:\USERS\KEEL\DOCUMENTS\GITHUB\GL_TEST\GLEW\BUILD\CMAKE\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/KEEL/Documents/GitHub/GL_Test -BC:/Users/KEEL/Documents/GitHub/GL_Test/build --check-stamp-file C:/Users/KEEL/Documents/GitHub/GL_Test/build/glew/build/cmake/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

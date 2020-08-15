@@ -9,3 +9,9 @@ C:/Users/KEEL/Documents/GitHub/GL_Test/build/GLFW/CMakeFiles/INSTALL.dir
 C:/Users/KEEL/Documents/GitHub/GL_Test/build/GLFW/CMakeFiles/ALL_BUILD.dir
 C:/Users/KEEL/Documents/GitHub/GL_Test/build/GLFW/src/CMakeFiles/glfw.dir
 C:/Users/KEEL/Documents/GitHub/GL_Test/build/GLFW/src/CMakeFiles/INSTALL.dir
+C:/Users/KEEL/Documents/GitHub/GL_Test/build/glew/build/cmake/CMakeFiles/glewinfo.dir
+C:/Users/KEEL/Documents/GitHub/GL_Test/build/glew/build/cmake/CMakeFiles/glew.dir
+C:/Users/KEEL/Documents/GitHub/GL_Test/build/glew/build/cmake/CMakeFiles/glew_s.dir
+C:/Users/KEEL/Documents/GitHub/GL_Test/build/glew/build/cmake/CMakeFiles/visualinfo.dir
+C:/Users/KEEL/Documents/GitHub/GL_Test/build/glew/build/cmake/CMakeFiles/INSTALL.dir
+C:/Users/KEEL/Documents/GitHub/GL_Test/build/glew/build/cmake/CMakeFiles/ALL_BUILD.dir

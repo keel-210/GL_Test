@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\KEEL\Documents\GitHub\GL_Test\glew\build\cmake\CMakeFiles\9612a7086892d3c307b40c58afbe1631\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\KEEL\Documents\GitHub\GL_Test\glew\build\cmake\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\KEEL\Documents\GitHub\GL_Test\glew\build\cmake\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{08CCB4E6-B446-31D7-8973-E1D55CE46BEF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

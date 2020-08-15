@@ -169,6 +169,18 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+    <ProjectReference Include="C:\Users\KEEL\Documents\GitHub\GL_Test\build\glew\build\cmake\glew.vcxproj">
+      <Project>{B36995B4-732F-3E40-B2FB-1D80B3DAB255}</Project>
+      <Name>glew</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\KEEL\Documents\GitHub\GL_Test\build\glew\build\cmake\glew_s.vcxproj">
+      <Project>{13C38697-0863-3812-B66C-70C3C9277FCE}</Project>
+      <Name>glew_s</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\KEEL\Documents\GitHub\GL_Test\build\glew\build\cmake\glewinfo.vcxproj">
+      <Project>{965C875A-1A52-3A4D-B602-75BA1A569C72}</Project>
+      <Name>glewinfo</Name>
+    </ProjectReference>
     <ProjectReference Include="C:\Users\KEEL\Documents\GitHub\GL_Test\build\GLFW\src\glfw.vcxproj">
       <Project>{82FFFF8C-21CA-3DA9-874E-A3F09F54E91C}</Project>
       <Name>glfw</Name>
@@ -180,6 +192,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="C:\Users\KEEL\Documents\GitHub\GL_Test\build\src\src.vcxproj">
       <Project>{00349D0D-8EC5-338C-AC35-50A150391AB1}</Project>
       <Name>src</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\KEEL\Documents\GitHub\GL_Test\build\glew\build\cmake\visualinfo.vcxproj">
+      <Project>{F08F29F4-B120-3790-9A49-ACF3BCB7FC37}</Project>
+      <Name>visualinfo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
