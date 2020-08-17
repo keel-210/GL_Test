@@ -1,4 +1,5 @@
 #include <glad/glad.h>
+#include <GL/glew.h>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
@@ -52,6 +53,7 @@ int mainLoop(void)
 	}
 
 	glfwSetKeyCallback(window, key_callback);
+	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
 	glfwMakeContextCurrent(window);
 	gladLoadGL();
@@ -77,7 +79,6 @@ int mainLoop(void)
 	glEnableVertexAttribArray(vcol_location);
 	glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE,
 						  sizeof(vertices[0]), (void *)(sizeof(float) * 2));
-	//ここMVP座標返還
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -107,7 +108,6 @@ int mainLoop(void)
 
 	glfwDestroyWindow(window);
 
-	std::cout << "destroy" << std::endl;
 	glfwTerminate();
 	exit(EXIT_SUCCESS);
 }

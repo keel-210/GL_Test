@@ -7,7 +7,9 @@
                 "${workspaceFolder}",
                 "C:\\mingw-w64\\mingw32\\include",
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/code/.."
+                "${workspaceFolder}/code/..",
+                "${workspaceFolder}/glew/include",
+                "${workspaceFolder}/GLFW/include"
             ],
             "defines": [
                 "_DEBUG",
