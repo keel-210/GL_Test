@@ -13,13 +13,13 @@ link_directories(${PROJECT_SOURCE_DIR}/lib/x64)
 
 add_subdirectory(src)
 add_subdirectory(glfw)
-add_subdirectory(./glew/build/cmake)
+add_subdirectory(${PROJECT_SOURCE_DIR}/glew/build/cmake)
 
 find_package(OpenGL REQUIRED)
 
 add_executable(main main.cpp)
 
 target_link_libraries(main src)
+target_link_libraries(main glew)
 target_link_libraries(main OpenGL::GL)
 target_link_libraries(main glfw)
-target_link_libraries(main glew)

@@ -1,4 +1,3 @@
-#include <glad/glad.h>
 #include <GL/glew.h>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -6,6 +5,7 @@
 #include "linmath.h"
 #include "ShaderCompiler.h"
 
+#include <cstdlib>
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
@@ -30,7 +30,6 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
-
 int mainLoop(void)
 {
 	GLFWwindow *window;
@@ -42,22 +41,27 @@ int mainLoop(void)
 	if (!glfwInit())
 		exit(EXIT_FAILURE);
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	atexit(glfwTerminate);
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+	fprintf(stdout, "Create Window");
 	if (!window)
-	{
-		glfwTerminate();
 		exit(EXIT_FAILURE);
-	}
 
 	glfwSetKeyCallback(window, key_callback);
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
 	glfwMakeContextCurrent(window);
-	gladLoadGL();
 	glfwSwapInterval(1);
+
+	glewExperimental = GL_TRUE;
+	if (glewInit() != GL_TRUE)
+		exit(EXIT_FAILURE);
 
 	// NOTE: OpenGL error checks have been omitted for brevity
 
@@ -108,6 +112,5 @@ int mainLoop(void)
 
 	glfwDestroyWindow(window);
 
-	glfwTerminate();
 	exit(EXIT_SUCCESS);
 }
