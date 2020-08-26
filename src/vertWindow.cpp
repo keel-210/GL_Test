@@ -4,21 +4,20 @@
 
 #include "linmath.h"
 #include "ShaderCompiler.h"
+#include "Shape.h"
+#include "Window.h"
 
 #include <cstdlib>
+#include <memory>
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
 
-static const struct
-{
-	float x, y;
-	float r, g, b;
-} vertices[3] =
-	{
-		{-0.6f, -0.4f, 1.f, 0.f, 0.f},
-		{0.6f, -0.4f, 0.f, 1.f, 0.f},
-		{0.f, 0.6f, 0.f, 0.f, 1.f}};
+constexpr RenderingObject::Vertex RenderingVertex[] = {
+	{-0.5f, -0.5f},
+	{0.5f, -0.5f},
+	{0.5f, 0.5},
+	{-0.5f, 0.5f}};
 
 static void error_callback(int error, const char *description)
 {
@@ -30,87 +29,47 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 }
-int mainLoop(void)
+
+void InitializeGLFW()
 {
-	GLFWwindow *window;
-	GLuint vertex_buffer, vertex_shader, fragment_shader, program;
-	GLint mvp_location, vpos_location, vcol_location;
-
-	glfwSetErrorCallback(error_callback);
-
 	if (!glfwInit())
 		exit(EXIT_FAILURE);
 
 	atexit(glfwTerminate);
 
+	//後で調査 ver3.2以上にすると何も描画されない
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	// glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	// glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+}
+int mainLoop(void)
+{
+	InitializeGLFW();
+	Window window;
 
-	window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
-	fprintf(stdout, "Create Window");
-	if (!window)
-		exit(EXIT_FAILURE);
-
-	glfwSetKeyCallback(window, key_callback);
+	glfwSetErrorCallback(error_callback);
+	glfwSetKeyCallback(window.window, key_callback);
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
-	glfwMakeContextCurrent(window);
-	glfwSwapInterval(1);
+	std::unique_ptr<const Shape> shape(new Shape(2, 4, RenderingVertex));
 
-	glewExperimental = GL_TRUE;
-	if (glewInit() != GL_TRUE)
-		exit(EXIT_FAILURE);
+	GLuint program = PrepareShader("test.vert", "test.frag");
+	const GLint sizeLoc(glGetUniformLocation(program, "size"));
+	const GLint scaleLoc(glGetUniformLocation(program, "scale"));
 
-	// NOTE: OpenGL error checks have been omitted for brevity
-
-	glGenBuffers(1, &vertex_buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	//ここから
-	program = PrepareShader();
-	//ここまでシェーダーの準備
-
-	mvp_location = glGetUniformLocation(program, "MVP");
-	vpos_location = glGetAttribLocation(program, "vPos");
-	vcol_location = glGetAttribLocation(program, "vCol");
-
-	glEnableVertexAttribArray(vpos_location);
-	glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE,
-						  sizeof(vertices[0]), (void *)0);
-	glEnableVertexAttribArray(vcol_location);
-	glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE,
-						  sizeof(vertices[0]), (void *)(sizeof(float) * 2));
-
-	while (!glfwWindowShouldClose(window))
+	while (window)
 	{
-		float ratio;
-		int width, height;
-		mat4x4 m, p, mvp;
-
-		glfwGetFramebufferSize(window, &width, &height);
-		ratio = width / (float)height;
-
-		glViewport(0, 0, width, height);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		mat4x4_identity(m);
-		mat4x4_rotate_Z(m, m, (float)glfwGetTime());
-		mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-		mat4x4_mul(mvp, p, m);
-
 		glUseProgram(program);
-		glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat *)mvp);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glUniform2fv(sizeLoc, 1, window.GetSize());
+		glUniform1f(scaleLoc, window.GetScale());
 
-		glfwSwapBuffers(window);
+		shape->Draw();
+		window.swapBuffers();
 		glfwPollEvents();
-		//ここメインの描画
 	}
-
-	glfwDestroyWindow(window);
 
 	exit(EXIT_SUCCESS);
 }

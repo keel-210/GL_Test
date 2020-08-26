@@ -1,113 +1,54 @@
-#include <glad/glad.h>
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
+#include "Window.h"
 
-#include "linmath.h"
-#include "ShaderCompiler.h"
-
-#include <iostream>
-#include <stdlib.h>
-#include <stdio.h>
-
-static const struct
+Window::Window(int width, int height, const char *title)
+	: window(glfwCreateWindow(width, height, title, NULL, NULL)), scale(100.0f), CursorLocation{0.0f, 0.0f}
 {
-	float x, y;
-	float r, g, b;
-} vertices[3] =
+	if (window == NULL)
 	{
-		{-0.6f, -0.4f, 1.f, 0.f, 0.f},
-		{0.6f, -0.4f, 0.f, 1.f, 0.f},
-		{0.f, 0.6f, 0.f, 0.f, 1.f}};
-
-static void error_callback(int error, const char *description)
-{
-	fprintf(stderr, "Error: %s\n", description);
-}
-
-static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
-{
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GLFW_TRUE);
-}
-
-int mainLoop(void)
-{
-	GLFWwindow *window;
-	GLuint vertex_buffer, vertex_shader, fragment_shader, program;
-	GLint mvp_location, vpos_location, vcol_location;
-
-	glfwSetErrorCallback(error_callback);
-
-	if (!glfwInit())
-		exit(EXIT_FAILURE);
-
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-
-	window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
-	if (!window)
-	{
-		glfwTerminate();
-		exit(EXIT_FAILURE);
+		std::cerr << "Can't create GLFW window." << std::endl;
+		exit(1);
 	}
-
-	glfwSetKeyCallback(window, key_callback);
-
 	glfwMakeContextCurrent(window);
-	gladLoadGL();
-	glfwSwapInterval(1);
 
-	// NOTE: OpenGL error checks have been omitted for brevity
-
-	glGenBuffers(1, &vertex_buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	//ここから
-	program = PrepareShader();
-	//ここまでシェーダーの準備
-
-	mvp_location = glGetUniformLocation(program, "MVP");
-	vpos_location = glGetAttribLocation(program, "vPos");
-	vcol_location = glGetAttribLocation(program, "vCol");
-
-	glEnableVertexAttribArray(vpos_location);
-	glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE,
-						  sizeof(vertices[0]), (void *)0);
-	glEnableVertexAttribArray(vcol_location);
-	glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE,
-						  sizeof(vertices[0]), (void *)(sizeof(float) * 2));
-	//ここMVP座標返還
-
-	while (!glfwWindowShouldClose(window))
+	glewExperimental = GL_TRUE;
+	if (glewInit() != GLEW_OK)
 	{
-		float ratio;
-		int width, height;
-		mat4x4 m, p, mvp;
-
-		glfwGetFramebufferSize(window, &width, &height);
-		ratio = width / (float)height;
-
-		glViewport(0, 0, width, height);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		mat4x4_identity(m);
-		mat4x4_rotate_Z(m, m, (float)glfwGetTime());
-		mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
-		mat4x4_mul(mvp, p, m);
-
-		glUseProgram(program);
-		glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat *)mvp);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-		//ここメインの描画
+		std::cerr << "Can't initialize GLEW" << std::endl;
+		exit(1);
 	}
+	glfwSwapInterval(1);
+	glfwSetWindowUserPointer(window, this);
 
+	glfwSetWindowSizeCallback(window, resize);
+	resize(window, width, height);
+}
+Window::~Window()
+{
 	glfwDestroyWindow(window);
+}
+Window::operator bool()
+{
+	glfwWaitEvents();
 
-	std::cout << "destroy" << std::endl;
-	glfwTerminate();
-	exit(EXIT_SUCCESS);
+	//これよくない
+	return !glfwWindowShouldClose(window);
+}
+void Window::swapBuffers() const
+{
+	glfwSwapBuffers(window);
+}
+void Window::resize(GLFWwindow *const window, int width, int height)
+{
+	int fbwidth, fbheight;
+	glfwGetFramebufferSize(window, &fbwidth, &fbheight);
+
+	glViewport(0, 0, fbwidth, fbheight);
+
+	Window *const
+		instance(static_cast<Window *>(glfwGetWindowUserPointer(window)));
+	if (instance != NULL)
+	{
+		instance->size[0] = static_cast<GLfloat>(width);
+		instance->size[1] = static_cast<GLfloat>(height);
+	}
 }

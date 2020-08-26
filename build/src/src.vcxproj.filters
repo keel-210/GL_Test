@@ -7,6 +7,9 @@
     <ClCompile Include="C:\Users\KEEL\Documents\GitHub\GL_Test\src\ShaderCompiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\KEEL\Documents\GitHub\GL_Test\src\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\KEEL\Documents\GitHub\GL_Test\src\CMakeLists.txt" />
