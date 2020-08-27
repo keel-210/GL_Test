@@ -16,6 +16,13 @@ public:
 	explicit operator bool();
 	void swapBuffers() const;
 	static void resize(GLFWwindow *const window, int width, int height);
+	void SetCallbacks(GLFWwindow *const window);
+	static void error_callback(int error, const char *description);
+	static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
+	static void Cursor_callback(GLFWwindow *window, double xpos, double ypos);
+	static void Scroll_callback(GLFWwindow *window, double xpos, double ypos);
+
 	GLfloat GetScale() const { return scale; }
 	const GLfloat *GetSize() const { return size; }
+	const GLfloat *GetLocation() const { return CursorLocation; }
 };

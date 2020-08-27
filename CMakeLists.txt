@@ -23,3 +23,6 @@ target_link_libraries(main src)
 target_link_libraries(main glew)
 target_link_libraries(main OpenGL::GL)
 target_link_libraries(main glfw)
+
+file(COPY ${PROJECT_SOURCE_DIR}/src/test.vert DESTINATION ${PROJECT_SOURCE_DIR}/build/Debug)
+file(COPY ${PROJECT_SOURCE_DIR}/src/test.frag DESTINATION ${PROJECT_SOURCE_DIR}/build/Debug)

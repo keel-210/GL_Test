@@ -21,6 +21,8 @@ Window::Window(int width, int height, const char *title)
 
 	glfwSetWindowSizeCallback(window, resize);
 	resize(window, width, height);
+
+	SetCallbacks(window);
 }
 Window::~Window()
 {
@@ -30,7 +32,6 @@ Window::operator bool()
 {
 	glfwWaitEvents();
 
-	//これよくない
 	return !glfwWindowShouldClose(window);
 }
 void Window::swapBuffers() const
@@ -50,5 +51,46 @@ void Window::resize(GLFWwindow *const window, int width, int height)
 	{
 		instance->size[0] = static_cast<GLfloat>(width);
 		instance->size[1] = static_cast<GLfloat>(height);
+	}
+}
+void Window::SetCallbacks(GLFWwindow *const window)
+{
+	glfwSetErrorCallback(error_callback);
+	glfwSetKeyCallback(window, key_callback);
+	glfwSetCursorPosCallback(window, Cursor_callback);
+	glfwSetScrollCallback(window, Scroll_callback);
+}
+void Window::error_callback(int error, const char *description)
+{
+	fprintf(stderr, "Error: %s\n", description);
+}
+
+void Window::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+void Window::Cursor_callback(GLFWwindow *window, double xpos, double ypos)
+{
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) != GLFW_RELEASE)
+	{
+		double x, y;
+		glfwGetCursorPos(window, &x, &y);
+		Window *const
+			instance(static_cast<Window *>(glfwGetWindowUserPointer(window)));
+		if (instance != NULL)
+		{
+			instance->CursorLocation[0] = static_cast<GLfloat>(x) * 2.0f / instance->size[0] - 1.0f;
+			instance->CursorLocation[1] = 1.0f - static_cast<GLfloat>(y) * 2.0f / instance->size[1];
+		}
+	}
+}
+void Window::Scroll_callback(GLFWwindow *window, double x, double y)
+{
+	Window *const
+		instance(static_cast<Window *>(glfwGetWindowUserPointer(window)));
+	if (instance != NULL)
+	{
+		instance->scale += static_cast<GLfloat>(y);
 	}
 }

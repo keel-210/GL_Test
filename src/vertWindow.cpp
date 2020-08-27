@@ -19,17 +19,6 @@ constexpr RenderingObject::Vertex RenderingVertex[] = {
 	{0.5f, 0.5},
 	{-0.5f, 0.5f}};
 
-static void error_callback(int error, const char *description)
-{
-	fprintf(stderr, "Error: %s\n", description);
-}
-
-static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
-{
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GLFW_TRUE);
-}
-
 void InitializeGLFW()
 {
 	if (!glfwInit())
@@ -48,8 +37,6 @@ int mainLoop(void)
 	InitializeGLFW();
 	Window window;
 
-	glfwSetErrorCallback(error_callback);
-	glfwSetKeyCallback(window.window, key_callback);
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
 	std::unique_ptr<const Shape> shape(new Shape(2, 4, RenderingVertex));
@@ -57,6 +44,7 @@ int mainLoop(void)
 	GLuint program = PrepareShader("test.vert", "test.frag");
 	const GLint sizeLoc(glGetUniformLocation(program, "size"));
 	const GLint scaleLoc(glGetUniformLocation(program, "scale"));
+	const GLint locationLoc(glGetUniformLocation(program, "location"));
 
 	while (window)
 	{
@@ -65,6 +53,7 @@ int mainLoop(void)
 		glUseProgram(program);
 		glUniform2fv(sizeLoc, 1, window.GetSize());
 		glUniform1f(scaleLoc, window.GetScale());
+		glUniform2fv(locationLoc, 1, window.GetLocation());
 
 		shape->Draw();
 		window.swapBuffers();
