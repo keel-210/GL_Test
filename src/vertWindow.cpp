@@ -55,36 +55,10 @@ int mainLoop(void)
 
 		glUseProgram(program);
 
-		// //Scale変換行列
-		// const GLfloat *const size(window.GetSize());
-		// const GLfloat scale(window.GetScale() * 2.0f);
-		// const Matrix scaling(Matrix::Scale(scale / size[0], scale / size[1], 1.0f));
-		// //Translate変換行列
-		// const GLfloat *const position(window.GetLocation());
-		// const Matrix translation(Matrix::Translate(position[0], position[1], 0.0f));
-		// //モデル変換行列
-		// const Matrix model(translation * scaling);
-		// //ビュー変換行列
-		// const Matrix view(Matrix::LookAt(0.0f, 0.0f, 0.0f,
-		// 								 -1.0f, -1.0f, -1.0f,
-		// 								 0.0f, 1.0f, 0.0f));
-		// //直交投影変換行列
-		// const GLfloat *const size(window.GetSize());
-		// const GLfloat scale(window.GetScale() * 2.0f);
-		// const GLfloat w(size[0] / scale), h(size[1] / scale);
-		// const Matrix projection(Matrix::Orthogonal(-w, w, -h, h, 1.0f, 10.0f));
-		// //モデル変換行列
-		// const GLfloat *const location(window.GetLocation());
-		// const Matrix model(Matrix::Translate(location[0], location[1], 0.0f));
-		// //ビュー変換行列
-		// const Matrix view(Matrix::LookAt(3.0f, 4.0f, 5.0f,
-		// 								 0.0f, 0.0f, 0.0f,
-		// 								 0.0f, 1.0f, 0.0f));
-		//透視投影変換行列
 		const GLfloat *const size(window.GetSize());
-		const GLfloat scale(window.GetScale() * 2.0f);
-		const GLfloat w(size[0] / scale), h(size[1] / scale);
-		const Matrix projection(Matrix::Frustum(-w, w, -h, h, 1.0f, 10.0f));
+		const GLfloat fovy(window.GetScale() * 0.01f);
+		const GLfloat aspect(size[0] / size[1]);
+		const Matrix projection(Matrix::Perspective(fovy, aspect, 1.0f, 10.0f));
 		//モデル変換行列
 		const GLfloat *const location(window.GetLocation());
 		const Matrix model(Matrix::Translate(location[0], location[1], 0.0f));
