@@ -28,4 +28,6 @@ public:
 	static Matrix Frustum(GLfloat left, GLfloat right,
 						  GLfloat bottom, GLfloat top,
 						  GLfloat zNear, GLfloat zFar);
+	static Matrix Perspective(GLfloat fovy, GLfloat aspect,
+							  GLfloat zNear, GLfloat zFar);
 };

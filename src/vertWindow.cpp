@@ -68,11 +68,23 @@ int mainLoop(void)
 		// const Matrix view(Matrix::LookAt(0.0f, 0.0f, 0.0f,
 		// 								 -1.0f, -1.0f, -1.0f,
 		// 								 0.0f, 1.0f, 0.0f));
-		//直交投影変換行列
+		// //直交投影変換行列
+		// const GLfloat *const size(window.GetSize());
+		// const GLfloat scale(window.GetScale() * 2.0f);
+		// const GLfloat w(size[0] / scale), h(size[1] / scale);
+		// const Matrix projection(Matrix::Orthogonal(-w, w, -h, h, 1.0f, 10.0f));
+		// //モデル変換行列
+		// const GLfloat *const location(window.GetLocation());
+		// const Matrix model(Matrix::Translate(location[0], location[1], 0.0f));
+		// //ビュー変換行列
+		// const Matrix view(Matrix::LookAt(3.0f, 4.0f, 5.0f,
+		// 								 0.0f, 0.0f, 0.0f,
+		// 								 0.0f, 1.0f, 0.0f));
+		//透視投影変換行列
 		const GLfloat *const size(window.GetSize());
 		const GLfloat scale(window.GetScale() * 2.0f);
 		const GLfloat w(size[0] / scale), h(size[1] / scale);
-		const Matrix projection(Matrix::Orthogonal(-w, w, -h, h, 1.0f, 10.0f));
+		const Matrix projection(Matrix::Frustum(-w, w, -h, h, 1.0f, 10.0f));
 		//モデル変換行列
 		const GLfloat *const location(window.GetLocation());
 		const Matrix model(Matrix::Translate(location[0], location[1], 0.0f));
