@@ -13,6 +13,15 @@
     <ClCompile Include="C:\Users\KEEL\Documents\GitHub\GL_Test\src\Matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\KEEL\Documents\GitHub\GL_Test\src\RenderingObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\KEEL\Documents\GitHub\GL_Test\src\Shape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\KEEL\Documents\GitHub\GL_Test\src\ShapeIndex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\KEEL\Documents\GitHub\GL_Test\src\CMakeLists.txt" />

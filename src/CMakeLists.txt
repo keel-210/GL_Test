@@ -5,6 +5,9 @@ vertWindow.cpp
 ShaderCompiler.cpp
 Window.cpp
 Matrix.cpp
+RenderingObject.cpp
+Shape.cpp
+ShapeIndex.cpp
 )
 
 target_include_directories(src PRIVATE ${PROJECT_SOURCE_DIR}/include/KHR)

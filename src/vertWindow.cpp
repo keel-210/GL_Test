@@ -7,6 +7,7 @@
 #include "Shape.h"
 #include "Window.h"
 #include "Matrix.h"
+#include "ShapeIndex.h"
 
 #include <cstdlib>
 #include <memory>
@@ -14,11 +15,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-constexpr RenderingObject::Vertex RenderingVertex[] = {
-	{-0.5f, -0.5f},
-	{0.5f, -0.5f},
-	{0.5f, 0.5},
-	{-0.5f, 0.5f}};
+constexpr RenderingObject::Vertex CubeVertex[] = {
+	{-1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f},
+	{-1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.8f},
+	{-1.0f, 1.0f, 1.0f, 0.0f, 0.8f, 0.0f},
+	{-1.0f, 1.0f, -1.0f, 0.0f, 0.8f, 0.8f},
+	{1.0f, 1.0f, -1.0f, 0.8f, 0.0f, 0.0f},
+	{1.0f, -1.0f, -1.0f, 0.8f, 0.0f, 0.8f},
+	{1.0f, -1.0f, 1.0f, 0.8f, 0.8f, 0.0f},
+	{1.0f, 1.0f, 1.0f, 0.8f, 0.8f, 0.8f},
+};
+constexpr GLuint WireCubeIndex[] =
+	{1, 0, 2, 7, 3, 0, 4, 7, 5, 0, 6, 7, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 1};
 
 void InitializeGLFW()
 {
@@ -37,13 +45,13 @@ int mainLoop(void)
 {
 	InitializeGLFW();
 	//WindowのメンバイニシャライザによってglfwCreateWindowが呼ばれるので
-	//Windowコンストラクタの前にGLFWを初期化しなければならない←どうにかしろ
+	//Windowコンストラクタの前にGLFWを初期化しなければならない←どうにかしろ美しくないだろうが
 	//イニシャライザとコンストラクタの順番変えられない以上どうにも
 	Window window;
 
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
-	std::unique_ptr<const Shape> shape(new Shape(2, 4, RenderingVertex));
+	std::unique_ptr<const Shape> shape(new ShapeIndex(3, 8, CubeVertex, 24, WireCubeIndex));
 
 	GLuint program = PrepareShader("test.vert", "test.frag");
 	const GLint projectionLoc(glGetUniformLocation(program, "projection"));
