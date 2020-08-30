@@ -4,6 +4,7 @@ add_library(src STATIC
 vertWindow.cpp
 ShaderCompiler.cpp
 Window.cpp
+Matrix.cpp
 )
 
 target_include_directories(src PRIVATE ${PROJECT_SOURCE_DIR}/include/KHR)

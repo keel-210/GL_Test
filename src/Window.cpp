@@ -3,6 +3,17 @@
 Window::Window(int width, int height, const char *title)
 	: window(glfwCreateWindow(width, height, title, NULL, NULL)), scale(100.0f), CursorLocation{0.0f, 0.0f}
 {
+	if (!glfwInit())
+		exit(EXIT_FAILURE);
+
+	atexit(glfwTerminate);
+
+	//後で調査 ver3.2以上にすると何も描画されない
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	// glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	// glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	if (window == NULL)
 	{
 		std::cerr << "Can't create GLFW window." << std::endl;
@@ -69,6 +80,19 @@ void Window::key_callback(GLFWwindow *window, int key, int scancode, int action,
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
+	Window *const
+		instance(static_cast<Window *>(glfwGetWindowUserPointer(window)));
+	if (instance != NULL)
+	{
+		if (glfwGetKey(window, GLFW_KEY_LEFT) != GLFW_RELEASE)
+			instance->CursorLocation[0] -= 2.0f / instance->size[0];
+		if (glfwGetKey(window, GLFW_KEY_RIGHT) != GLFW_RELEASE)
+			instance->CursorLocation[0] += 2.0f / instance->size[0];
+		if (glfwGetKey(window, GLFW_KEY_DOWN) != GLFW_RELEASE)
+			instance->CursorLocation[1] -= 2.0f / instance->size[1];
+		if (glfwGetKey(window, GLFW_KEY_UP) != GLFW_RELEASE)
+			instance->CursorLocation[1] += 2.0f / instance->size[1];
+	}
 }
 void Window::Cursor_callback(GLFWwindow *window, double xpos, double ypos)
 {

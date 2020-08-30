@@ -26,3 +26,5 @@ target_link_libraries(main glfw)
 
 file(COPY ${PROJECT_SOURCE_DIR}/src/test.vert DESTINATION ${PROJECT_SOURCE_DIR}/build/Debug)
 file(COPY ${PROJECT_SOURCE_DIR}/src/test.frag DESTINATION ${PROJECT_SOURCE_DIR}/build/Debug)
+file(COPY ${PROJECT_SOURCE_DIR}/build/bin/Debug/glew32d.dll DESTINATION ${PROJECT_SOURCE_DIR}/build/Debug)
+
