@@ -8,25 +8,14 @@
 #include "Window.h"
 #include "Matrix.h"
 #include "ShapeIndex.h"
+#include "MeshShape.h"
+#include "TestConst.h"
 
 #include <cstdlib>
 #include <memory>
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
-
-constexpr RenderingObject::Vertex CubeVertex[] = {
-	{-1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f},
-	{-1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.8f},
-	{-1.0f, 1.0f, 1.0f, 0.0f, 0.8f, 0.0f},
-	{-1.0f, 1.0f, -1.0f, 0.0f, 0.8f, 0.8f},
-	{1.0f, 1.0f, -1.0f, 0.8f, 0.0f, 0.0f},
-	{1.0f, -1.0f, -1.0f, 0.8f, 0.0f, 0.8f},
-	{1.0f, -1.0f, 1.0f, 0.8f, 0.8f, 0.0f},
-	{1.0f, 1.0f, 1.0f, 0.8f, 0.8f, 0.8f},
-};
-constexpr GLuint WireCubeIndex[] =
-	{1, 0, 2, 7, 3, 0, 4, 7, 5, 0, 6, 7, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 1};
 
 void InitializeGLFW()
 {
@@ -51,7 +40,7 @@ int mainLoop(void)
 
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
-	std::unique_ptr<const Shape> shape(new ShapeIndex(3, 8, CubeVertex, 24, WireCubeIndex));
+	std::unique_ptr<const Shape> shape(new MeshShape(3, 24, SolidColorCubeVertex, 36, SolidColorCubeIndex));
 
 	GLuint program = PrepareShader("test.vert", "test.frag");
 	const GLint projectionLoc(glGetUniformLocation(program, "projection"));

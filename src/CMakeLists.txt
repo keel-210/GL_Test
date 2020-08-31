@@ -8,6 +8,7 @@ Matrix.cpp
 RenderingObject.cpp
 Shape.cpp
 ShapeIndex.cpp
+MeshShape.cpp
 )
 
 target_include_directories(src PRIVATE ${PROJECT_SOURCE_DIR}/include/KHR)
