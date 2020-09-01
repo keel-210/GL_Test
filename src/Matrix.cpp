@@ -66,7 +66,7 @@ Matrix Matrix::Rotate(GLfloat a, GLfloat x, GLfloat y, GLfloat z)
 	t[1] = lm * c1 + n * s;
 	t[2] = nl * c1 - m * s;
 	t[4] = lm * c1 - n * s;
-	t[5] = (1.0f - m2) * x + m2;
+	t[5] = (1.0f - m2) * c + m2;
 	t[6] = mn * c1 + l * s;
 	t[8] = nl * c1 + m * s;
 	t[9] = mn * c1 - l * s;

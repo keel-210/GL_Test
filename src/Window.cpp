@@ -23,6 +23,14 @@ Window::Window(int width, int height, const char *title)
 	resize(window, width, height);
 
 	SetCallbacks(window);
+
+	glFrontFace(GL_CCW);
+	glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+
+	glClearDepth(1.0f);
+	glDepthFunc(GL_LESS);
+	glEnable(GL_DEPTH_TEST);
 }
 Window::~Window()
 {
@@ -30,7 +38,7 @@ Window::~Window()
 }
 Window::operator bool()
 {
-	glfwWaitEvents();
+	glfwPollEvents();
 
 	return !glfwWindowShouldClose(window);
 }

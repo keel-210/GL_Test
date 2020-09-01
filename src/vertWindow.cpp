@@ -39,6 +39,7 @@ int mainLoop(void)
 	Window window;
 
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+	glfwSetTime(0.0);
 
 	std::unique_ptr<const Shape> shape(new MeshShape(3, 24, SolidColorCubeVertex, 36, SolidColorCubeIndex));
 
@@ -48,7 +49,7 @@ int mainLoop(void)
 
 	while (window)
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUseProgram(program);
 
@@ -58,7 +59,8 @@ int mainLoop(void)
 		const Matrix projection(Matrix::Perspective(fovy, aspect, 1.0f, 10.0f));
 		//モデル変換行列
 		const GLfloat *const location(window.GetLocation());
-		const Matrix model(Matrix::Translate(location[0], location[1], 0.0f));
+		const Matrix r(Matrix::Rotate(static_cast<GLfloat>(glfwGetTime() * 5.0f), 1.0f, 1.0f, -1.0f));
+		const Matrix model(Matrix::Translate(location[0], location[1], 0.0f) * r);
 		//ビュー変換行列
 		const Matrix view(Matrix::LookAt(3.0f, 4.0f, 5.0f,
 										 0.0f, 0.0f, 0.0f,
@@ -68,8 +70,12 @@ int mainLoop(void)
 
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, projection.data());
 		glUniformMatrix4fv(modleviewLoc, 1, GL_FALSE, modelview.data());
-
 		shape->Draw();
+
+		const Matrix modelview1(modelview * Matrix::Translate(0.0f, 0.0f, 3.0f));
+		glUniformMatrix4fv(modleviewLoc, 1, GL_FALSE, modelview1.data());
+		shape->Draw();
+
 		window.swapBuffers();
 		glfwPollEvents();
 	}
