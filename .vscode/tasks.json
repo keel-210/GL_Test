@@ -4,7 +4,7 @@
         {
             "type": "shell",
             "label": "g++.exe build active file",
-            "command": "C:\\mingw-w64\\mingw32\\bin\\g++.exe",
+            "command": "cd .. & cmake .. & cmake --build . & cd ./Debug & main",
             "args": [
                 "-g",
                 "-o",

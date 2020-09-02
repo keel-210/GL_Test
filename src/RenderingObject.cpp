@@ -16,7 +16,7 @@ RenderingObject::RenderingObject(GLint size, GLsizei vertexCount, const Vertex *
 						  sizeof(Vertex), static_cast<Vertex *>(0)->position);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
-						  sizeof(Vertex), static_cast<Vertex *>(0)->color);
+						  sizeof(Vertex), static_cast<Vertex *>(0)->normal);
 	glEnableVertexAttribArray(1);
 
 	glGenBuffers(1, &ibo);

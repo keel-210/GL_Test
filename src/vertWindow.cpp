@@ -9,6 +9,7 @@
 #include "Matrix.h"
 #include "ShapeIndex.h"
 #include "MeshShape.h"
+#include "SolidShape.h"
 #include "TestConst.h"
 
 #include <cstdlib>
@@ -41,7 +42,7 @@ int mainLoop(void)
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	glfwSetTime(0.0);
 
-	std::unique_ptr<const Shape> shape(new MeshShape(3, 24, SolidColorCubeVertex, 36, SolidColorCubeIndex));
+	std::unique_ptr<const Shape> shape(new MeshShape(3, 36, SolidColorCubeVertex, 36, SolidColorCubeIndex));
 
 	GLuint program = PrepareShader("test.vert", "test.frag");
 	const GLint projectionLoc(glGetUniformLocation(program, "projection"));

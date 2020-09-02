@@ -45,6 +45,11 @@ GLuint PrepareShader(const char *vert, const char *frag)
 	glAttachShader(program, fragment_shader);
 	glDeleteShader(vertex_shader);
 	glDeleteShader(fragment_shader);
+
+	glBindAttribLocation(program, 0, "position");
+	glBindAttribLocation(program, 1, "normal");
+	glBindFragDataLocation(program, 0, "fragment");
+
 	glLinkProgram(program);
 	return program;
 }

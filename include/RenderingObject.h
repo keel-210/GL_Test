@@ -14,7 +14,7 @@ public:
 	struct Vertex
 	{
 		GLfloat position[3];
-		GLfloat color[3];
+		GLfloat normal[3];
 	};
 	RenderingObject(GLint size, GLsizei vertexCount, const Vertex *vertex,
 					GLsizei indexcount, const GLuint *index);
