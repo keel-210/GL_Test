@@ -14,7 +14,10 @@ public:
 	const GLfloat *data() const;
 	GLfloat &operator[](std::size_t i);
 	Matrix operator*(const Matrix &m) const;
+
 	void LoadIdentity();
+	void GetNormalMatrix(GLfloat *m) const;
+
 	static Matrix Identity();
 	static Matrix Translate(GLfloat x, GLfloat y, GLfloat z);
 	static Matrix Scale(GLfloat x, GLfloat y, GLfloat z);

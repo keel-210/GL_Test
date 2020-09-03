@@ -47,6 +47,7 @@ int mainLoop(void)
 	GLuint program = PrepareShader("test.vert", "test.frag");
 	const GLint projectionLoc(glGetUniformLocation(program, "projection"));
 	const GLint modleviewLoc(glGetUniformLocation(program, "modelview"));
+	const GLint normalMatrixLoc(glGetUniformLocation(program, "normalMatrix"));
 
 	while (window)
 	{
@@ -61,20 +62,26 @@ int mainLoop(void)
 		//モデル変換行列
 		const GLfloat *const location(window.GetLocation());
 		const Matrix r(Matrix::Rotate(static_cast<GLfloat>(glfwGetTime() * 5.0f), 1.0f, 1.0f, -1.0f));
-		const Matrix model(Matrix::Translate(location[0], location[1], 0.0f) * r);
+		const Matrix model(Matrix::Translate(location[0], location[1], 0.0f));
 		//ビュー変換行列
 		const Matrix view(Matrix::LookAt(3.0f, 4.0f, 5.0f,
 										 0.0f, 0.0f, 0.0f,
 										 0.0f, 1.0f, 0.0f));
+		GLfloat normalMatrix[9];
 		//モデルビュー変換行列
 		const Matrix modelview(view * model);
+		modelview.GetNormalMatrix(normalMatrix);
 
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, projection.data());
 		glUniformMatrix4fv(modleviewLoc, 1, GL_FALSE, modelview.data());
+		glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, normalMatrix);
+
 		shape->Draw();
 
 		const Matrix modelview1(modelview * Matrix::Translate(0.0f, 0.0f, 3.0f));
+		modelview1.GetNormalMatrix(normalMatrix);
 		glUniformMatrix4fv(modleviewLoc, 1, GL_FALSE, modelview1.data());
+		glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, normalMatrix);
 		shape->Draw();
 
 		window.swapBuffers();
