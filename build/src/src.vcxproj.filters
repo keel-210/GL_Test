@@ -28,6 +28,9 @@
     <ClCompile Include="C:\Users\KEEL\Documents\GitHub\GL_Test\src\SolidShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\KEEL\Documents\GitHub\GL_Test\src\MeshUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\KEEL\Documents\GitHub\GL_Test\src\CMakeLists.txt" />

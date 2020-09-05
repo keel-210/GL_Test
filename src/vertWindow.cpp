@@ -11,12 +11,16 @@
 #include "MeshShape.h"
 #include "SolidShape.h"
 #include "TestConst.h"
+#include "MeshUtils.h"
+#include "Color.h"
 
 #include <cstdlib>
 #include <memory>
 #include <iostream>
+#include <cmath>
 #include <stdlib.h>
 #include <stdio.h>
+#include <vector>
 
 void InitializeGLFW()
 {
@@ -42,12 +46,26 @@ int mainLoop(void)
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	glfwSetTime(0.0);
 
-	std::unique_ptr<const Shape> shape(new MeshShape(3, 36, SolidColorCubeVertex, 36, SolidColorCubeIndex));
-
 	GLuint program = PrepareShader("test.vert", "test.frag");
 	const GLint projectionLoc(glGetUniformLocation(program, "projection"));
 	const GLint modleviewLoc(glGetUniformLocation(program, "modelview"));
 	const GLint normalMatrixLoc(glGetUniformLocation(program, "normalMatrix"));
+	const GLint LposLoc(glGetUniformLocation(program, "Lpos"));
+	const GLint LambLoc(glGetUniformLocation(program, "Lamb"));
+	const GLint LdiffLoc(glGetUniformLocation(program, "Ldiff"));
+	const GLint LspecLoc(glGetUniformLocation(program, "Lspec"));
+
+	std::vector<RenderingObject::Vertex> solidSphereVertex = CreateSphereVertex();
+	std::vector<GLuint> solidSphereIndex = CreateSphereIndex();
+	std::unique_ptr<const Shape> shape(new MeshShape(3,
+													 static_cast<GLsizei>(solidSphereVertex.size()), solidSphereVertex.data(),
+													 static_cast<GLsizei>(solidSphereIndex.size()), solidSphereIndex.data()));
+
+	static constexpr int Lcount(2);
+	static constexpr Color Lpos[] = {0.0f, 0.0f, 5.0f, 1.0f, 8.0f, 0.0f, 0.0f, 1.0f};
+	static constexpr GLfloat Lamb[] = {0.2f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f};
+	static constexpr GLfloat Ldiff[] = {1.0f, 0.5f, 0.5f, 0.9f, 0.9f, 0.9f};
+	static constexpr GLfloat Lspec[] = {1.0f, 0.5f, 0.5f, 0.9f, 0.9f, 0.9f};
 
 	while (window)
 	{
@@ -62,7 +80,7 @@ int mainLoop(void)
 		//モデル変換行列
 		const GLfloat *const location(window.GetLocation());
 		const Matrix r(Matrix::Rotate(static_cast<GLfloat>(glfwGetTime() * 5.0f), 1.0f, 1.0f, -1.0f));
-		const Matrix model(Matrix::Translate(location[0], location[1], 0.0f));
+		const Matrix model(r * Matrix::Translate(location[0], location[1], 0.0f));
 		//ビュー変換行列
 		const Matrix view(Matrix::LookAt(3.0f, 4.0f, 5.0f,
 										 0.0f, 0.0f, 0.0f,
@@ -75,6 +93,11 @@ int mainLoop(void)
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, projection.data());
 		glUniformMatrix4fv(modleviewLoc, 1, GL_FALSE, modelview.data());
 		glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, normalMatrix);
+		for (int i = 0; i < Lcount; ++i)
+			glUniform4fv(LposLoc + i, 1, (view * Lpos[i]).data());
+		glUniform3fv(LambLoc, Lcount, Lamb);
+		glUniform3fv(LdiffLoc, Lcount, Ldiff);
+		glUniform3fv(LspecLoc, Lcount, Lspec);
 
 		shape->Draw();
 
