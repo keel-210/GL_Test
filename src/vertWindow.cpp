@@ -13,6 +13,8 @@
 #include "TestConst.h"
 #include "MeshUtils.h"
 #include "Color.h"
+#include "Uniform.h"
+#include "Material.h"
 
 #include <cstdlib>
 #include <memory>
@@ -55,6 +57,9 @@ int mainLoop(void)
 	const GLint LdiffLoc(glGetUniformLocation(program, "Ldiff"));
 	const GLint LspecLoc(glGetUniformLocation(program, "Lspec"));
 
+	const GLint materialLoc(glGetUniformLocation(program, "Material"));
+	glUniformBlockBinding(program, materialLoc, 0);
+
 	std::vector<RenderingObject::Vertex> solidSphereVertex = CreateSphereVertex();
 	std::vector<GLuint> solidSphereIndex = CreateSphereIndex();
 	std::unique_ptr<const Shape> shape(new MeshShape(3,
@@ -66,6 +71,12 @@ int mainLoop(void)
 	static constexpr GLfloat Lamb[] = {0.2f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f};
 	static constexpr GLfloat Ldiff[] = {1.0f, 0.5f, 0.5f, 0.9f, 0.9f, 0.9f};
 	static constexpr GLfloat Lspec[] = {1.0f, 0.5f, 0.5f, 0.9f, 0.9f, 0.9f};
+
+	static constexpr Material color[] = {
+		//KambKdiff,Kspec,Kshi
+		{0.6f, 0.6f, 0.2f, 0.6f, 0.6f, 0.2f, 0.3f, 0.3f, 0.3f, 30.0f},
+		{0.1f, 0.1f, 0.5f, 0.1f, 0.1f, 0.5f, 0.4f, 0.4f, 0.4f, 60.0f}};
+	const Uniform<Material> material(color, 2);
 
 	while (window)
 	{
@@ -99,12 +110,14 @@ int mainLoop(void)
 		glUniform3fv(LdiffLoc, Lcount, Ldiff);
 		glUniform3fv(LspecLoc, Lcount, Lspec);
 
+		material.select(0, 0);
 		shape->Draw();
 
 		const Matrix modelview1(modelview * Matrix::Translate(0.0f, 0.0f, 3.0f));
 		modelview1.GetNormalMatrix(normalMatrix);
 		glUniformMatrix4fv(modleviewLoc, 1, GL_FALSE, modelview1.data());
 		glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, normalMatrix);
+		material.select(0, 1);
 		shape->Draw();
 
 		window.swapBuffers();
